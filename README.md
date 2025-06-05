@@ -22,7 +22,7 @@ Moodify is a full-stack MERN web app that analyzes your mood and recommends musi
 ## 🌐 Live Demo
 
 Frontend: [https://moodifydeployed.vercel.app/](https://moodifydeployed.vercel.app/)  
-Backend API: [https://moodify-api.onrender.com](https://moodify-api.onrender.com)
+Backend API: [https://moodify-shty.onrender.com](https://moodify-shty.onrender.com)
 
 ## 🛠️ Setup Locally
 
