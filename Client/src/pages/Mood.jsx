@@ -41,7 +41,7 @@ const Mood = () => {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 p-6 flex items-center justify-center">
       <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-8 transition-all duration-300">
         <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-8 tracking-tight">
-          🧠 Your Mood History
+          🧠 Your Saved Moods
         </h2>
 
         {moods.length === 0 ? (
