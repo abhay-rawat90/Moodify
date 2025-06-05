@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
+
 const Home = () => {
   const { user } = useContext(AuthContext);
   const [moodText, setMoodText] = useState("");
@@ -22,10 +23,10 @@ const Home = () => {
       setSubmittedMood(moodText);
       setLoading(true); // ⬅️ START LOADING
 
-      const aiRes = await axios.post("http://localhost:5000/api/ai-song", { moodText });
+      const aiRes = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/ai-song`, { moodText });
       const { title } = aiRes.data;
 
-      const ytRes = await axios.get("http://localhost:5000/api/youtube/search", {
+      const ytRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/youtube/search`, {
         params: { songTitle: title },
       });
 
@@ -47,7 +48,7 @@ const Home = () => {
   const handleSave = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/moods",
+        `${import.meta.env.VITE_API_BASE_URL}/moods`,
         {
           moodText: submittedMood,
           songTitle: song.title,

@@ -13,7 +13,7 @@ const Mood = () => {
 
   const fetchMoods = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/moods", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/moods`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setMoods(res.data);
@@ -24,7 +24,7 @@ const Mood = () => {
 
   const deleteMood = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/moods/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/moods/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setMoods((prev) => prev.filter((mood) => mood._id !== id));
