@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Mood from "./pages/Mood";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import Profile from "./pages/Profile";
 
 
