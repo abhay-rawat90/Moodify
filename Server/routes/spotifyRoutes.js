@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
+require("dotenv").config();
 
 router.get("/token", async (req, res) => {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -34,7 +35,7 @@ router.get("/link", async (req, res) => {
 
   try {
     // Step 1: Get Spotify access token
-    const tokenRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/spotify/token`); // Adjust to deployed URL if needed
+    const tokenRes = await axios.get(`${process.env.VITE_API_BASE_URL}/spotify/token`); // Adjust to deployed URL if needed
     const token = tokenRes.data.access_token;
 
     // Step 2: Search Spotify using the title from AI
