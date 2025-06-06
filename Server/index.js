@@ -5,6 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const moodRoutes = require("./routes/moodRoutes");
 const aiRoutes = require("./routes/ai");
 const ytRoutes = require("./routes/youtubeRoute");
+const spotifyRoutes = require("./routes/spotifyRoutes");
 require('dotenv').config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/moods',moodRoutes);
 app.use('/api/ai-song',aiRoutes);
 app.use('/api/youtube',ytRoutes);
+app.use('/api/spotify',spotifyRoutes);
 app.get('/', async (req, res) => {
     res.send('API is working');
 });

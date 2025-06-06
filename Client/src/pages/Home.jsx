@@ -2,15 +2,15 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
-
 const Home = () => {
   const { user } = useContext(AuthContext);
   const [moodText, setMoodText] = useState("");
   const [song, setSong] = useState(null);
+  const [spotifyData, setSpotifyData] = useState(null); // ⬅️ NEW
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
   const [submittedMood, setSubmittedMood] = useState("");
-  const [loading, setLoading] = useState(false); // ⬅️ NEW
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +20,9 @@ const Home = () => {
       setError("");
       setSong(null);
       setSaved(false);
+      setSpotifyData(null); // ⬅️ RESET
       setSubmittedMood(moodText);
-      setLoading(true); // ⬅️ START LOADING
+      setLoading(true);
 
       const aiRes = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/ai-song`, { moodText });
       const { title } = aiRes.data;
@@ -37,11 +38,21 @@ const Home = () => {
       };
 
       setSong(songData);
+
+      // 🔗 Get Spotify Link
+      const spotifyRes = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/spotify/link?title=${encodeURIComponent(title)}`
+      );
+
+      if (spotifyRes.data?.spotifyUrl) {
+        setSpotifyData(spotifyRes.data);
+      }
+
     } catch (err) {
       console.error("Error:", err);
       setError("Failed to get a valid song. Try again.");
     } finally {
-      setLoading(false); // ⬅️ STOP LOADING
+      setLoading(false);
     }
   };
 
@@ -70,6 +81,7 @@ const Home = () => {
     setMoodText("");
     setSong(null);
     setSaved(false);
+    setSpotifyData(null);
     setSubmittedMood("");
     setError("");
   };
@@ -110,6 +122,7 @@ const Home = () => {
         {song && !loading && (
           <div className="mt-10 bg-indigo-50 border border-indigo-200 p-6 rounded-2xl shadow-lg">
             <h3 className="text-2xl font-semibold text-indigo-800 mb-3">{song.title}</h3>
+            
             {song.embedUrl ? (
               <iframe
                 className="w-full aspect-video rounded-lg shadow"
@@ -121,6 +134,17 @@ const Home = () => {
               ></iframe>
             ) : (
               <p className="text-gray-600">No embeddable video found.</p>
+            )}
+
+            {spotifyData?.spotifyUrl && (
+              <a
+                href={spotifyData.spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-xl transition"
+              >
+                🎧 Listen on Spotify
+              </a>
             )}
 
             <div className="flex gap-4 mt-6">
