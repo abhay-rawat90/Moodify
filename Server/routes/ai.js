@@ -9,10 +9,12 @@ router.post("/", async (req, res) => {
   try {
     const prompt = `
 I want you to act as a music recommendation AI. A user tells you their current mental state or mood, and you respond with a single song recommendation that best fits it.
-and give me links of the videos that are available in india currently. Tell the title with Artist name or the channel name where it can be found on youtube.
+and give me titles of the videos that are available in india currently. Recommend th song that is avilable on both youtube and spotify.
+But on Spotify song names are different so find what is the name of same song on on spotify. Add the additional information in titles so that th same song can be found easily.
 
 Return the response in this format:
 Title: <song title>
+SpotifyTitle: <Spotify Song Title>
 
 User's mood: "${moodText}"
 `;
@@ -35,10 +37,11 @@ User's mood: "${moodText}"
     const reply = response.data.choices[0].message.content;
 
     // Parse the response to get Title and Link lines
-    const [titleLine, linkLine] = reply.split("\n");
+    const [titleLine, spotifyTitleLine] = reply.split("\n");
     const title = titleLine.replace("Title:", "").trim();
+    const spotifyTitle = spotifyTitleLine.replace("SpotifyTitle:", "").trim();
 
-    res.json({ title });
+    res.json({ title, spotifyTitle });
   } catch (error) {
     console.error("AI error:", error.response?.data || error.message);
     res.status(500).json({ message: "Failed to generate recommendation" });

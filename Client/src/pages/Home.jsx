@@ -25,7 +25,7 @@ const Home = () => {
       setLoading(true);
 
       const aiRes = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/ai-song`, { moodText });
-      const { title } = aiRes.data;
+      const { title, spotifyTitle } = aiRes.data;
 
       const ytRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/youtube/search`, {
         params: { songTitle: title },
@@ -41,7 +41,7 @@ const Home = () => {
 
       // 🔗 Get Spotify Link
       const spotifyRes = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/spotify/link?title=${encodeURIComponent(title)}`
+        `${import.meta.env.VITE_API_BASE_URL}/spotify/link?title=${encodeURIComponent(spotifyTitle)}`
       );
 
       if (spotifyRes.data?.spotifyUrl) {
