@@ -22,6 +22,11 @@ app.get('/', async (req, res) => {
     res.send('API is working');
 });
 
+app.get('/ping', (req, res) => {
+  res.status(200).send('OK');
+});
+
+
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
     console.log("MongoDB Connected");
