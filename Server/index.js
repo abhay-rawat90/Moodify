@@ -22,7 +22,7 @@ app.get('/', async (req, res) => {
     res.send('API is working');
 });
 
-app.get('/ping', (req, res) => {
+app.get('/api/ping', (req, res) => {
   res.status(200).send('OK');
 });
 
