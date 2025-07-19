@@ -1,1 +1,6 @@
+body {
+  margin: 0;
+  box-sizing: border-box; /* This is also a good practice to include */
+}
+
 @import "tailwindcss";
