@@ -107,11 +107,10 @@ const Home = () => {
   };
 
   return (
-    // This container centers the content vertically in the space *below* the navbar.
-    // We use `calc()` to subtract the approximate navbar height from the viewport height.
+    // This container now correctly centers its content vertically within the available space.
     <div 
       className="w-full text-white font-sans flex items-center justify-center"
-      style={{ minHeight: 'calc(100vh - 72px)' }} // Assumes navbar height is ~72px
+      style={{ minHeight: 'calc(100vh - 96px)' }} // 96px is pt-24 from App.jsx
     >
       <div className="container w-full mx-auto p-4 sm:p-6 md:p-8">
         <div className="w-full max-w-2xl mx-auto">

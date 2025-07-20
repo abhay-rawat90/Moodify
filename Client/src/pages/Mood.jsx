@@ -51,7 +51,7 @@ const Mood = () => {
   return (
     <div 
       className="w-full text-white font-sans"
-      style={{ minHeight: 'calc(100vh - 72px)' }} // Assumes navbar height is ~72px
+      style={{ minHeight: 'calc(100vh - 96px)' }} // Assumes navbar height is ~72px
     >
       <div className="container w-full mx-auto p-4 sm:p-6 md:p-8">
         <div className="w-full max-w-4xl mx-auto">

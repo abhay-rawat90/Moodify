@@ -21,18 +21,16 @@ const Navbar = () => {
   };
 
   const navLinkClass = "flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-300";
-  const mobileNavLinkClass = "flex items-center gap-3 text-lg text-gray-200 hover:bg-gray-700/50 p-3 rounded-lg transition-colors duration-300";
+  const mobileNavLinkClass = "flex items-center gap-3 text-lg text-gray-200 hover:bg-gray-700/50 p-3 rounded-md transition-colors duration-300";
 
   return (
-    <header className="relative bg-gray-900/60 backdrop-blur-xl sticky top-0 z-50 animate-fade-in overflow-hidden border-b border-white/10">
-      {/* Updated background with a second animated layer */}
-      <div className="liquid-glass-effect"></div>
-      <div className="liquid-glass-effect-2"></div>
-      
-      <nav className="container relative z-10 mx-auto px-4 sm:px-6 py-4">
-        <div className="flex justify-between items-center">
-          {/* Updated Brand/Logo on the left */}
-          <Link to="/" className="text-3xl tracking-wide" onClick={() => setIsOpen(false)}>
+    // This wrapper makes the navbar float and centers it
+    <div className="fixed top-0 left-0 right-0 z-50 p-4 animate-fade-in">
+      {/* Pill-shaped navbar container */}
+      <nav className="relative w-full max-w-5xl mx-auto bg-gray-900/50 backdrop-blur-xl rounded-full border border-white/10 shadow-lg">
+        <div className="flex justify-between items-center px-6 py-3">
+          {/* Brand/Logo on the left */}
+          <Link to="/" className="text-2xl tracking-wide" onClick={() => setIsOpen(false)}>
              <span className="font-logo animate-text-gradient bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
                 Moodify
              </span>
@@ -49,7 +47,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/login" className={navLinkClass}><LoginIcon /><span>Login</span></Link>
-                <Link to="/register" className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300">
+                <Link to="/register" className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-full transition-all duration-300">
                   <RegisterIcon />
                   <span>Register</span>
                 </Link>
@@ -64,42 +62,50 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isOpen && (
-          <div className="md:hidden mt-4 animate-fade-in-up">
-            <div className="flex flex-col gap-2">
-               {user ? (
-                <>
-                  <Link to="/mood" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><MoodsIcon /><span>Saved Moods</span></Link>
-                  <Link to="/profile" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><ProfileIcon /><span>Profile</span></Link>
-                  <hr className="border-gray-700 my-2" />
-                  <button onClick={handleLogout} className={`${mobileNavLinkClass} text-pink-400 w-full`}><LogoutIcon /><span>Logout</span></button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><LoginIcon /><span>Login</span></Link>
-                  <Link to="/register" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><RegisterIcon /><span>Register</span></Link>
-                </>
-              )}
-            </div>
-          </div>
-        )}
       </nav>
-    </header>
+
+      {/* Mobile Menu Dropdown - Now a separate element */}
+      {isOpen && (
+        <div className="md:hidden mt-2 w-full max-w-5xl mx-auto animate-fade-in-up">
+            <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+                <div className="flex flex-col gap-2">
+                {user ? (
+                    <>
+                    <Link to="/mood" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><MoodsIcon /><span>Saved Moods</span></Link>
+                    <Link to="/profile" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><ProfileIcon /><span>Profile</span></Link>
+                    <hr className="border-gray-700 my-2" />
+                    <button onClick={handleLogout} className={`${mobileNavLinkClass} text-pink-400 w-full justify-start`}><LogoutIcon /><span>Logout</span></button>
+                    </>
+                ) : (
+                    <>
+                    <Link to="/login" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><LoginIcon /><span>Login</span></Link>
+                    <Link to="/register" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}><RegisterIcon /><span>Register</span></Link>
+                    </>
+                )}
+                </div>
+            </div>
+        </div>
+      )}
+    </div>
   );
 };
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Poppins:wght@400;600;700&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #111827; /* bg-gray-900 */
+    margin: 0;
+  }
 
   .font-logo {
     font-family: 'Righteous', cursive;
   }
 
   @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   @keyframes fade-in-up {
     from {
@@ -118,46 +124,6 @@ const styles = `
     animation: fade-in-up 0.3s ease-out forwards;
   }
 
-  /* Liquid Glass Effect Animation */
-  @keyframes liquid-flow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .liquid-glass-effect {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      120deg,
-      rgba(192, 132, 252, 0) 20%,
-      rgba(236, 72, 153, 0.15) 50%,
-      rgba(99, 102, 241, 0) 80%
-    );
-    background-size: 300% 300%;
-    animation: liquid-flow 12s ease infinite;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.8;
-  }
-  
-  .liquid-glass-effect-2 {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      -120deg,
-      rgba(99, 102, 241, 0) 30%,
-      rgba(192, 132, 252, 0.2) 60%,
-      rgba(236, 72, 153, 0) 90%
-    );
-    background-size: 400% 400%;
-    animation: liquid-flow 18s ease-in-out infinite reverse;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.6;
-  }
-
-  /* New Shifting Gradient Logo Animation */
   @keyframes text-gradient-shift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
