@@ -7,29 +7,35 @@ router.post("/", async (req, res) => {
   const { moodText } = req.body;
 
   try {
-    const prompt = `
-I want you to act as a music recommendation AI. A user tells you their current mental state or mood, and you respond with a single song recommendation that best fits it.
-and give me titles of the videos that are available in india currently. Recommend th song that is avilable on both youtube and spotify.
-But on Spotify song names are different so find what is the name of same song on on spotify. Add the additional information in titles so that th same song can be found easily.
-
-Return the response in this format:
-Title: <song title>
-SpotifyTitle: <Spotify Song Title>
-
-User's mood: "${moodText}"
+    const systemInstruction = `
+You are a music recommendation AI specialized in Indian and International music.
+1. Recommend a song that matches the user's mood.
+2. Ensure the song is available in India on both YouTube and Spotify.
+3. If the song title is different on Spotify (e.g., includes "feat." or is a Remix), provide the exact Spotify title.
+4. STRICTLY follow this response format with no extra text:
+Title: <YouTube Video Title>
+SpotifyTitle: <Exact Spotify Song Name>
 `;
 
-    // Call OpenRouter.ai API
+    const userPrompt = `User's mood: "${moodText}"`;
+
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "deepseek/deepseek-r1:free", // free model on OpenRouter
-        messages: [{ role: "user", content: prompt }],
+        model: "meta-llama/llama-3.3-70b-instruct:free",
+        
+        messages: [
+            { role: "system", content: systemInstruction },
+            { role: "user", content: userPrompt }
+        ],
+        
+        temperature: 0.7, 
       },
       {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
+          "HTTP-Referer": "https://moodify-azure.vercel.app/", 
         },
       }
     );
