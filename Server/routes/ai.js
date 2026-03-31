@@ -12,7 +12,9 @@ You are a music recommendation AI specialized in Indian and International music.
 1. Recommend a song that matches the user's mood.
 2. Ensure the song is available in India on both YouTube and Spotify.
 3. If the song title is different on Spotify (e.g., includes "feat." or is a Remix), provide the exact Spotify title.
-4. STRICTLY follow this response format with no extra text:
+4. Suggest Bollywood Songs too and give song in the language user is communicating with.
+5. Don't give same song every time in same mood, try to shuffle the song but it should match the mood.
+6. STRICTLY follow this response format with no extra text:
 Title: <YouTube Video Title>
 SpotifyTitle: <Exact Spotify Song Name>
 `;
@@ -22,7 +24,7 @@ SpotifyTitle: <Exact Spotify Song Name>
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "meta-llama/llama-3.3-70b-instruct:free",
+        model: "nvidia/nemotron-3-super-120b-a12b:free",
         
         messages: [
             { role: "system", content: systemInstruction },

@@ -1,22 +1,18 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Mood from "./pages/Mood";
 import Navbar from "./components/Navbar";
-import Profile from "./pages/Profile";
 import Beams from "./blocks/Backgrounds/Beams/Beams";
 
-
-
+const Home = lazy(() => import("./pages/Home"));
+const Register = lazy(() => import("./pages/Register"));
+const Login = lazy(() => import("./pages/Login"));
+const Mood = lazy(() => import("./pages/Mood"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 function App() {
-
   return (
-    <>
     <Router>
-        {/* The Beams background is now here, covering the entire viewport */}
         <div className="fixed inset-0 z-0">
            <Beams
             beamWidth={3}
@@ -30,22 +26,20 @@ function App() {
           />
         </div>
         
-        {/* The Navbar floats on top of the background */}
         <Navbar />
 
-        {/* The main content area has top padding to avoid the navbar */}
         <main className="relative z-10 pt-24">
-          <Routes>
-            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/mood" element={<ProtectedRoute><Mood /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          </Routes>
+          <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/mood" element={<ProtectedRoute><Mood /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            </Routes>
+          </Suspense>
         </main>
       </Router>
-    </>
   )
 }
-
-export default App
+export default App;
